@@ -1,21 +1,18 @@
 # Compiler
 CC = arm-none-eabi-gcc
-CFLAGS = -mcpu=cortex-m3 -mthumb -Wall -O2 -I./inc -I./CMSIS
+CFLAGS = -c -mcpu=cortex-m3 -mthumb -std=gnu99 -Wall -O0
+LDFLAGS = -nostdlib -T STM32F103RB.ld -Wl,-Map=final.map
+MAIN = src/main
 
-# Linker
-LDFLAGS = -T ldscripts/STM32F103RB.ld -nostartfiles -Wl,--gc-sections
+all:src/main.o src/stm32_startup.o final.elf
 
-# Source files
-SRCS = src/main.c src/system_stm32f10x.c
-OBJS = $(SRCS:.c=.o)
+src/main.o:src/main.c
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Output
-TARGET = main.elf
+src/stm32_startup.o:src/stm32_startup.c
+	$(CC) $(CFLAGS) -o $@ $^
 
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(TARGET)
-
+final.elf:src/main.o src/stm32_startup.o
+	$(CC) $(LDFLAGS) -o $@ $^
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf src/*.o *.elf *.map
