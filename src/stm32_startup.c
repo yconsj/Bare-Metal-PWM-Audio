@@ -196,7 +196,7 @@ void Reset_Handler(void){
     size = &_ebss - &_sbss;
     pDst = (uint8_t*) &_sbss;
     for(uint32_t i = 0 ; i<size ;i++){
-        *pDst++ 0;
+        *pDst = 0;
     }
 
     // call init function of std lib
