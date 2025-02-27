@@ -5,15 +5,15 @@ MEMORY
     RAM(rwx):ORIGIN = 0x20000000, LENGTH = 20K
 }
 
-ENTRY (Reset_Handler)
+ENTRY(Reset_Handler)
 
 SECTIONS
 {
     /* Code and read-only data */
     .text : {
-        *(.vectors)   /* Interrupt vector table */
-        *(.text*)     /* Program code */
-        *(.rodata*)   /* Read-only data */
+        *(.isr_vector)   /* Interrupt vector table */
+        *(.text)     /* Program code */
+        *(.rodata)   /* Read-only data */
         . = ALIGN(4);
         _etext = .;
     } > FLASH
@@ -21,7 +21,7 @@ SECTIONS
     /* Initialized data */
     .data : {
         _sdata = .;
-        *(.data*)
+        *(.data)
         . = ALIGN(4);
         _edata = .;
     } > RAM AT> FLASH
@@ -29,9 +29,11 @@ SECTIONS
     /* Uninitialized data */
     .bss : {
         _sbss = .;
-        *(.bss*)
+        __bss_start__ = _sbss;
+        *(.bss)
         *(COMMON)
         . = ALIGN(4);
         _ebss = .;
+        __bss_end__ = _ebss;
     } > RAM
 }

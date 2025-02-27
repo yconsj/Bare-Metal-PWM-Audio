@@ -1,18 +1,42 @@
 # Compiler
 CC = arm-none-eabi-gcc
-CFLAGS = -c -mcpu=cortex-m3 -mthumb -std=gnu99 -Wall -O0
-LDFLAGS = -nostdlib -T STM32F103RB.ld -Wl,-Map=final.map
-MAIN = src/main
+CFLAGS = -c -mcpu=cortex-m3 -mthumb -std=c99 -Wall -O0 -g
+LDFLAGS = -nostdlib -T STM32F103RB.ld -Wl,-Map=$(BUILD_DIR)/final.map
 
-all:src/main.o src/stm32_startup.o final.elf
+BUILD_DIR = build
+SRC_DIR = src
+DRIVER_SRC_DIR = $(SRC_DIR)/drivers
+APP_SRC_DIR = $(SRC_DIR)/app
 
-src/main.o:src/main.c
-	$(CC) $(CFLAGS) -o $@ $^
+DRIVER_SRCS = $(wildcard src/drivers/*.c)
+DRIVER_OBJS = $(patsubst $(DRIVER_SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(DRIVER_SRCS))
 
-src/stm32_startup.o:src/stm32_startup.c
-	$(CC) $(CFLAGS) -o $@ $^
+MAIN_OBJ 	= $(BUILD_DIR)/main.o
+STARTUP_OBJ = $(BUILD_DIR)/stm32_startup.o
 
-final.elf:src/main.o src/stm32_startup.o
+OBJS = $(MAIN_OBJ) $(STARTUP_OBJ) $(DRIVER_OBJS)
+
+# Target rules
+all: $(BUILD_DIR) $(BUILD_DIR)/final.elf
+
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+# $@ = Target
+# $^ = All prerequisites
+# $< = First prerequisite
+
+$(BUILD_DIR)/final.elf: $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/app/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/drivers/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $<
+
 clean:
-	rm -rf src/*.o *.elf *.map
+	rm -rf $(BUILD_DIR)
