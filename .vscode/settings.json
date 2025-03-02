@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        ".fantomasignore": "ignore",
+        "rcc_driver.h": "c",
+        "gpio_driver.h": "c",
+        "stdint.h": "c",
+        "pin.h": "c",
+        "pin_stm32f103rb.h": "c",
+        "gpio_stm32f103rb.h": "c"
+    }
+}

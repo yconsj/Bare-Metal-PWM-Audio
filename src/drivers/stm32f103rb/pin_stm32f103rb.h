@@ -1,0 +1,24 @@
+#ifndef PIN_STM32F103RB_H
+#define PIN_STM32F103RB_H
+
+typedef enum {
+    STM32_PIN_0,
+    STM32_PIN_1,
+    STM32_PIN_2,
+    STM32_PIN_3,
+    STM32_PIN_4,
+    STM32_PIN_5,
+    STM32_PIN_6,
+    STM32_PIN_7,
+    STM32_PIN_8,
+    STM32_PIN_9,
+    STM32_PIN_10,
+    STM32_PIN_11,
+    STM32_PIN_12,
+    STM32_PIN_13,
+    STM32_PIN_14,
+    STM32_PIN_15,
+    STM32_PIN_COUNT,
+} STM32_PIN;
+
+#endif

@@ -1,5 +1,7 @@
 #include <stdint.h>
-#include "../drivers/gpio_driver.h"
+#include "../hal/gpio_driver.h"
+
+
 
 int main(void) {
 
@@ -8,12 +10,12 @@ int main(void) {
         .mode = GPIO_OUTPUT,
         .cnf = GPIO_ANALOG
     };
-    gpio_init(GPIOA, &gpio_params);
+    gpio_init(GPIOB, &gpio_params);
     
     
     // blink
     while (1) {
-        gpio_toggle(GPIOA, PB13_LED);
+        gpio_toggle(GPIOB, PIN_13); // PB13_LED
         for (volatile int i = 0; i < 1000000; i++);
     }
 }
