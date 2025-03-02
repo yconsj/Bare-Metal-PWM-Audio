@@ -17,21 +17,11 @@ typedef struct {
 } STM32_gpio_t;
 
 typedef enum {
-    STM32_GPIO_INPUT = 0b00,
-    STM32_GPIO_OUTPUT_10MHZ,
-    STM32_GPIO_OUTPUT_2MHZ,
-    STM32_GPIO_OUTPUT_50MHZ,
-    STM32_GPIO_OUTPUT = STM32_GPIO_OUTPUT_2MHZ,
-} STM32_GPIO_MODE;
-typedef enum {
-    STM32_GPIO_ANALOG = 0b00,
-    STM32_GPIO_PULL = 0b10
-} STM32_GPIO_CNF;
+    STM32_GPIO_10MHZ = 1,
+    STM32_GPIO_2MHZ,
+    STM32_GPIO_50MHZ,
+} STM32_GPIO_SPEED;
 
-
-// Convert HAL mode to STM32 mode
-STM32_GPIO_MODE hal_to_stm32_mode(GPIO_MODE mode);
-STM32_GPIO_CNF hal_to_stm32_cnf(GPIO_CNF cnf);
 STM32_gpio_t* hal_to_stm32_port(GPIO_PORT port);
 
 /* GPIO Macros */

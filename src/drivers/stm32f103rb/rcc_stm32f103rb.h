@@ -20,4 +20,29 @@ typedef struct {
     volatile uint32_t CSR;
 } STM32_rcc_t;
 
+typedef struct
+{
+    volatile uint32_t CTRL;
+    volatile uint32_t LOAD;
+    volatile uint32_t VAL;
+    volatile uint32_t CALIB;
+} SysTick_t;
+
+
+#define STM32_CLOCK_FREQ_MHZ 72 // TODO: validate clock freq
+
+#define STM32_SYSTICK_BASE    (0xE000E010)
+#define STM32_SYSTICK_CTRL    STM32_SYSTICK_BASE
+#define STM32_SYSTICK_RELOAD  (STM32_SYSTICK_BASE + 0x4)
+#define STM32_SYSTICK_VAl     (STM32_SYSTICK_BASE + 0x8)
+#define STM32_SYSTICK_CALIB   (STM32_SYSTICK_BASE + 0x12)
+
+#define STM32_SYSTICK         ((SysTick_t*) STM32_SYSTICK_BASE)
+#define STM32_SYSTICK_CTRL_ENABLE             (1 << 0)
+#define STM32_SYSTICK_CTRL_INTERRUPT_ENABLE   (1 << 1)
+#define STM32_SYSTICK_CTRL_CLKSOURCE          (1 << 2)
+#define STM32_SYSTICK_CTRL_COUNTFLAG          (1 << 16)
+
+
+
 #endif

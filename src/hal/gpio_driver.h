@@ -9,10 +9,28 @@ typedef enum {
     GPIO_ANALOG,
     GPIO_ALTERNATE_FUNCTION
 } GPIO_MODE;
+
+typedef enum {
+    GPIO_MODE_OUTPUT_PP,
+    GPIO_MODE_OUTPUT_OD
+} GPIO_OUTPUT_CONFIG;
+
+typedef enum {
+    GPIO_MODE_INPUT_ANALOG,
+    GPIO_MODE_INPUT_FLOAT,
+    GPIO_MODE_INPUT_PP
+} GPIO_INPUT_CONFIG;
+
+typedef enum {
+    GPIO_INPUT,
+    GPIO_OUTPUT
+} GPIO_MODE;
+
 typedef struct {
     PIN pin;
     GPIO_MODE mode;
-    GPIO_CNF cnf;
+    GPIO_OUTPUT_CONFIG output_config;
+    GPIO_INPUT_CONFIG input_config;
 } gpio_params_t;
 
 // Function prototypes (must be implemented by the MCU-specific layer)

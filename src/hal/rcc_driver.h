@@ -5,6 +5,9 @@
 
 
 void rcc_peripheral_enable(GPIO_PORT port);
+void systick_init(void);
+void SysTick_Handler(void);
+void delay_ms(uint32_t ms);
 #ifdef stm32f103rb
     #include "../drivers/stm32f103rb/rcc_stm32f103rb.h"
 #else 

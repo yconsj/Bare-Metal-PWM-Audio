@@ -1,26 +1,5 @@
 #include "gpio_stm32f103rb.h"
 
-
-
-// Convert HAL mode to STM32 mode
-STM32_GPIO_MODE hal_to_stm32_mode(GPIO_MODE mode) {
-    switch (mode) {
-        case GPIO_INPUT: return STM32_GPIO_INPUT;
-        case GPIO_OUTPUT: return STM32_GPIO_OUTPUT;
-        case GPIO_ANALOG: return STM32_GPIO_ANALOG;
-        default: return STM32_GPIO_INPUT;  // Default to input
-    }
-}
-
-// Convert HAL configuration (CNF) to STM32 configuration
-STM32_GPIO_CNF hal_to_stm32_cnf(GPIO_CNF cnf) {
-    switch (cnf) {
-        case GPIO_CNF_ANALOG: return STM32_GPIO_ANALOG;
-        case GPIO_CNF_PULL: return STM32_GPIO_PULL;
-        default: return STM32_GPIO_ANALOG;
-    }
-}
-
 STM32_gpio_t* hal_to_stm32_port(GPIO_PORT port) {
     switch (port) {
         case GPIOA: return STM32_GPIOA;
@@ -39,16 +18,24 @@ void gpio_init(GPIO_PORT port, gpio_params_t *gpio_params) {
     // Enable the clock for the GPIO peripheral
     rcc_peripheral_enable(port);
 
+    uint8_t cnf;
+    uint8_t mode;
+    if (gpio_params->mode == GPIO_OUTPUT){
+        cnf = gpio_params->output_config;
+        mode = STM32_GPIO_2MHZ; //gpio_params->speed;
+    }
+    else {
+        cnf = gpio_params->input_config;
+        mode = 0;
+    }
+
     // Select the correct control register (CRL or CRH)
-    volatile uint32_t *cr = STM32_GPIO_CR_REGISTER(gpio, gpio_params->pin);
+    volatile uint32_t *cr = GPIO_CR_REGISTER(gpio, gpio_params->pin);
 
-    // Clear mode and configuration bits
-    *cr &= ~STM32_GPIO_MODE_MASK(gpio_params->pin);  // Clear MODE
-    *cr &= ~STM32_GPIO_CNF_MASK(gpio_params->pin);   // Clear CNF
-
-    // Set mode and configuration
-    *cr |= (hal_to_stm32_cnf(gpio_params->cnf) << STM32_GPIO_CNF_PINS(gpio_params->pin));
-    *cr |= (hal_to_stm32_mode(gpio_params->mode) << STM32_GPIO_MODE_PINS(gpio_params->pin));
+    *cr &= ~STM32_GPIO_CNF_MASK(gpio_params->pin);
+    *cr &= ~STM32_GPIO_MODE_MASK(gpio_params->pin);
+    *cr |= (cnf << STM32_GPIO_CNF_PINS(gpio_params->pin));
+    *cr |= (mode << STM32_GPIO_MODE_PINS(gpio_params->pin));
 }
 
 // GPIO toggle function

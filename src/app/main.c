@@ -4,18 +4,20 @@
 
 
 int main(void) {
-
+    systick_init();
     gpio_params_t gpio_params = {
         .pin = PIN_5,
         .mode = GPIO_OUTPUT,
-        .cnf = GPIO_ANALOG
+        .output_config = GPIO_MODE_OUTPUT_PP
     };
-    gpio_init(GPIOB, &gpio_params);
+    gpio_init(GPIOA, &gpio_params);
     
     
     // blink
-    while (1) {
-        gpio_toggle(GPIOB, PIN_13); // PB13_LED
-        for (volatile int i = 0; i < 1000000; i++);
+    while(1){
+        gpio_toggle(GPIOA, PIN_5);
+        delay_ms(1000);
     }
+
+    
 }
