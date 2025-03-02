@@ -1,19 +1,23 @@
 #include <stdint.h>
 #include "../drivers/gpio_driver.h"
+#include "../drivers/rcc_driver.h"
 
 int main(void) {
-
+    systick_init();
     gpio_params_t gpio_params = {
         .pin = PIN_5,
         .mode = GPIO_OUTPUT,
-        .cnf = GPIO_ANALOG
+        .output_config = GPIO_MODE_OUTPUT_PP,
+        .speed = GPIO_OUTPUT_SPEED_2MHZ
     };
     gpio_init(GPIOA, &gpio_params);
     
     
     // blink
-    while (1) {
-        gpio_toggle(GPIOA, PB13_LED);
-        for (volatile int i = 0; i < 1000000; i++);
+    while(1){
+        gpio_toggle(GPIOA, PIN_5);
+        delay_ms(1000);
     }
+
+    
 }

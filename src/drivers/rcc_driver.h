@@ -5,5 +5,7 @@
 
 void rcc_peripheral_enable(gpio_t *gpio);
 
-
+void systick_init(void);
+void SysTick_Handler(void);
+void delay_ms(uint32_t ms);
 #endif

@@ -8,8 +8,10 @@
 
 typedef struct {
     PIN pin;
-    MODE mode;
-    CNF cnf;
+    GPIO_MODE mode;
+    GPIO_SPEED speed;
+    GPIO_OUTPUT_CONFIG output_config;
+    GPIO_INPUT_CONFIG input_config;
 } gpio_params_t;
 
 void gpio_init(gpio_t *gpio, gpio_params_t* gpio_params);

@@ -56,16 +56,36 @@ typedef struct {
 } gpio_t;
 
 typedef enum {
-    GPIO_INPUT = 0b00,
-    GPIO_OUTPUT_10MHZ,
-    GPIO_OUTPUT_2MHZ,
-    GPIO_OUTPUT_50MHZ,
-    GPIO_OUTPUT = GPIO_OUTPUT_2MHZ,
-} MODE;
+    GPIO_MODE_OUTPUT_PP,
+    GPIO_MODE_OUTPUT_OD
+} GPIO_OUTPUT_CONFIG;
+
 typedef enum {
-    GPIO_ANALOG = 0b00,
-    GPIO_PULL = 0b10
-} CNF;
+    GPIO_MODE_INPUT_ANALOG,
+    GPIO_MODE_INPUT_FLOAT,
+    GPIO_MODE_INPUT_PP
+} GPIO_INPUT_CONFIG;
+
+typedef enum {
+    GPIO_OUTPUT_SPEED_10MHZ = 1,
+    GPIO_OUTPUT_SPEED_2MHZ,
+    GPIO_OUTPUT_SPEED_50MHZ
+} GPIO_SPEED;
+
+typedef enum {
+    GPIO_INPUT,
+    GPIO_OUTPUT
+} GPIO_MODE;
+
+
+
+/* GPIO Macros */
+#define GPIO_CR_REGISTER(gpio, pin)     ((pin) > 7 ? &(gpio->CRH) : &(gpio->CRL))
+#define GPIO_CNF_MASK(pin)              (0b11 << (((pin % 8) * 4) + 2))
+#define GPIO_MODE_MASK(pin)             (0b11 << ((pin % 8) * 4))
+#define GPIO_CNF_PINS(pin)              (((pin % 8) * 4) + 2)
+#define GPIO_MODE_PINS(pin)             ((pin % 8) * 4)
+
 typedef enum {
     PIN_0,
     PIN_1,
@@ -86,10 +106,26 @@ typedef enum {
     PIN_COUNT,
 } PIN;
 
-/* GPIO Macros */
-#define GPIO_CR_REGISTER(gpio, pin)     ((pin) > 7 ? &(gpio->CRH) : &(gpio->CRL))
-#define GPIO_CNF_MASK(pin)              (0b11 << (((pin % 8) * 4) + 2))
-#define GPIO_MODE_MASK(pin)             (0b11 << ((pin % 8) * 4))
-#define GPIO_CNF_PINS(pin)              (((pin % 8) * 4) + 2)
-#define GPIO_MODE_PINS(pin)             ((pin % 8) * 4)
+#define CLOCK_FREQ_MHZ 72 // TODO: validate clock freq
+
+#define SYSTICK_BASE    (0xE000E010)
+#define SYSTICK_CTRL    SYSTICK_BASE
+#define SYSTICK_RELOAD  (SYSTICK_BASE + 0x4)
+#define SYSTICK_VAl     (SYSTICK_BASE + 0x8)
+#define SYSTICK_CALIB   (SYSTICK_BASE + 0x12)
+
+#define SYSTICK         ((SysTick_t*) SYSTICK_BASE)
+#define SYSTICK_CTRL_ENABLE             (1 << 0)
+#define SYSTICK_CTRL_INTERRUPT_ENABLE   (1 << 1)
+#define SYSTICK_CTRL_CLKSOURCE          (1 << 2)
+#define SYSTICK_CTRL_COUNTFLAG          (1 << 16)
+
+typedef struct
+{
+    volatile uint32_t CTRL;
+    volatile uint32_t LOAD;
+    volatile uint32_t VAL;
+    volatile uint32_t CALIB;
+} SysTick_t;
+
 #endif 
