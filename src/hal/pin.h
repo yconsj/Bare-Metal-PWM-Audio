@@ -18,6 +18,22 @@
         PIN_13,
         PIN_14,
         PIN_15,
+        PIN_16,
+        PIN_17,
+        PIN_18,
+        PIN_19,
+        PIN_20,
+        PIN_21,
+        PIN_22,
+        PIN_23,
+        PIN_24,
+        PIN_25,
+        PIN_26,
+        PIN_27,
+        PIN_28,
+        PIN_29,
+        PIN_30,
+        PIN_31,
         PIN_COUNT,
     } PIN;
 
@@ -41,7 +57,7 @@
         #include "..\drivers\stm32f103rb\pin_stm32f103rb.h"
     #else 
         #ifdef cc2650 
-            #include "..\drivers\ticc2650\pin_cc2650.h"
+        // ...
     #else
     #endif
 

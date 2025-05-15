@@ -10,9 +10,24 @@ STM32_gpio_t* hal_to_stm32_port(GPIO_PORT port) {
     }
 }
 
+GPIO_PORT pin_to_port(PIN pin) {
+    if (pin < 8) {
+        return GPIOA;
+    }
+    else if (pin < 16) {
+        return GPIOB;
+    }
+    else if (pin < 24) {
+        return GPIOC;
+    }
+    else { // if (pin < 32) 
+        return GPIOB;
+    }
+}
 
 // GPIO initialization function (hardware-specific)
-void gpio_init(GPIO_PORT port, gpio_params_t *gpio_params) {
+void gpio_init(gpio_params_t *gpio_params) {
+    GPIO_PORT port = pin_to_port(gpio_params->pin);
     STM32_gpio_t *gpio = hal_to_stm32_port(port);
 
     // Enable the clock for the GPIO peripheral
@@ -30,7 +45,7 @@ void gpio_init(GPIO_PORT port, gpio_params_t *gpio_params) {
     }
 
     // Select the correct control register (CRL or CRH)
-    volatile uint32_t *cr = GPIO_CR_REGISTER(gpio, gpio_params->pin);
+    volatile uint32_t *cr = STM32_GPIO_CR_REGISTER(gpio, gpio_params->pin);
 
     *cr &= ~STM32_GPIO_CNF_MASK(gpio_params->pin);
     *cr &= ~STM32_GPIO_MODE_MASK(gpio_params->pin);
@@ -39,22 +54,28 @@ void gpio_init(GPIO_PORT port, gpio_params_t *gpio_params) {
 }
 
 // GPIO toggle function
-void gpio_toggle(GPIO_PORT port, uint16_t pin) {
-    STM32_gpio_t *gpio = hal_to_stm32_port(port);
-    gpio->ODR ^= (1 << pin);
+void gpio_toggle(uint16_t pin) {
+    // GPIO_PORT port, 
+    //STM32_gpio_t *gpio = hal_to_stm32_port(port);
+    //gpio->ODR ^= (1 << pin);
 }
 
 // GPIO write function
 void gpio_write(GPIO_PORT port, uint16_t pin, uint8_t value) {
+    /*
     STM32_gpio_t *gpio = hal_to_stm32_port(port);   
     if (value)
         gpio->BSRR = (1 << pin);  // Set pin
     else
         gpio->BRR = (1 << pin);   // Reset pin
+    */
 }
 
 // GPIO read function
-uint8_t gpio_read(GPIO_PORT port, uint16_t pin) {
+uint8_t gpio_read(uint16_t pin) {
+    /*
     STM32_gpio_t *gpio = hal_to_stm32_port(port);   
     return (gpio->IDR & (1 << pin)) ? 1 : 0;
+    */
+    return 0;
 }

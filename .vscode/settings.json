@@ -6,6 +6,13 @@
         "stdint.h": "c",
         "pin.h": "c",
         "pin_stm32f103rb.h": "c",
-        "gpio_stm32f103rb.h": "c"
+        "gpio_stm32f103rb.h": "c",
+        "rcc_stm32f103rb.h": "c",
+        "gpio_cc2650.h": "c",
+        "debug_cc2650.h": "c",
+        "assert_handler.h": "c",
+        "stddef.h": "c",
+        "registers_cc2650.h": "c",
+        "hw_types_cc2650.h": "c"
     }
 }

@@ -11,6 +11,7 @@ void rcc_peripheral_enable(GPIO_PORT port) {
     else return;
 }
 
+
 volatile uint32_t systick_counter = 0;
 
 void SysTick_Handler(void) {

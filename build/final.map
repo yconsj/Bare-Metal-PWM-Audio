@@ -9,224 +9,714 @@ RAM              0x20000000         0x00005000         xrw
 Linker script and memory map
 
 LOAD build/main.o
-LOAD build/stm32f103rb_startup.o
 LOAD build/gpio_stm32f103rb.o
 LOAD build/rcc_stm32f103rb.o
-LOAD build/gpio_driver.o
+LOAD build/stm32f103rb_startup.o
+LOAD build/assert_handler.o
+LOAD build/assert_stub.o
 
-.text           0x08000000      0x4b0
+.text           0x08000000      0x154
  *(.isr_vector)
- .isr_vector    0x08000000      0x158 build/stm32f103rb_startup.o
-                0x08000000                vectors
+ .isr_vector    0x08000000      0x154 build/stm32f103rb_startup.o
+                0x08000000                vector
  *(.text)
- .text          0x08000158       0x48 build/main.o
-                0x08000158                main
- .text          0x080001a0       0x90 build/stm32f103rb_startup.o
-                0x080001a0                EXTI2_IRQHandler
-                0x080001a0                SVCall_Handler
-                0x080001a0                DMA1_C3_IRQHandler
-                0x080001a0                EXIT9_5_IRQHandler
-                0x080001a0                DMA1_C4_IRQHandler
-                0x080001a0                TIM1_CC_IRQHandler
-                0x080001a0                HardFault_Handler
-                0x080001a0                TIM6_IRQHandler
-                0x080001a0                SysTick_Handler
-                0x080001a0                PVD_IRQHandler
-                0x080001a0                PendSV_Handler
-                0x080001a0                CAN2_RX1_IRQHandler
-                0x080001a0                EXTI3_IRQHandler
-                0x080001a0                NMI_handler
-                0x080001a0                MemManager_Handler
-                0x080001a0                EXTI0_IRQHandler
-                0x080001a0                I2C2_EV_IRQHandler
-                0x080001a0                CAN1_RX0_IRQHandler
-                0x080001a0                UsageFault_Handler
-                0x080001a0                CAN2_SCE_IRQHandler
-                0x080001a0                ADC1_2_IRQHandler
-                0x080001a0                SPI1_IRQHandler
-                0x080001a0                TAMPER_IRQHandler
-                0x080001a0                CAN2_RX0_IRQHandler
-                0x080001a0                DMA2_Channel2_IRQHandler
-                0x080001a0                USART3_IRQHandler
-                0x080001a0                RTC_IRQHandler
-                0x080001a0                DMA1_C7_IRQHandler
-                0x080001a0                CAN1_RX1_IRQHandler
-                0x080001a0                UART5_IRQHandler
-                0x080001a0                TIM4_IRQHandler
-                0x080001a0                DMA2_Channel1_IRQHandler
-                0x080001a0                I2C1_EV_IRQHandler
-                0x080001a0                UART4_IRQHandler
-                0x080001a0                DMA2_Channel4_IRQHandler
-                0x080001a0                TIM3_IRQHandler
-                0x080001a0                RCC_IRQHandler
-                0x080001a0                TIM1_TRG_COM_IRQHandler
-                0x080001a0                Default_Handler
-                0x080001a0                EXTI15_10_IRQHandler
-                0x080001a0                TIM7_IRQHandler
-                0x080001a0                CAN2_TX_IRQHandler
-                0x080001a0                TIM5_IRQHandler
-                0x080001a0                DMA1_C1_IRQHandler
-                0x080001a0                ETH_WKUP_IRQHandler
-                0x080001a0                SPI2_IRQHandler
-                0x080001a0                CAN1_TX_IRQHandler
-                0x080001a0                DMA2_Channel5_IRQHandler
-                0x080001a0                EXTI4_IRQHandler
-                0x080001a0                ETH_IRQHandler
-                0x080001a0                TIM1_UP_IRQHandler
-                0x080001a0                WWDG_IRQHandler
-                0x080001a0                TIM2_IRQHandler
-                0x080001a0                OTG_FS_WKUP_IRQHandler
-                0x080001a0                TIM1_BRK_IRQHandler
-                0x080001a0                EXTI1_IRQHandler
-                0x080001a0                RTCAlarm_IRQHandler
-                0x080001a0                USART2_IRQHandler
-                0x080001a0                I2C2_ER_IRQHandler
-                0x080001a0                CAN1_SCE_IRQHandler
-                0x080001a0                FLASH_IRQHandler
-                0x080001a0                DMA1_C2_IRQHandler
-                0x080001a0                BusFault_Handler
-                0x080001a0                USART1_IRQHandler
-                0x080001a0                OTG_FS_IRQHandler
-                0x080001a0                DMA1_C5_IRQHandler
-                0x080001a0                I2C1_ER_IRQHandler
-                0x080001a0                DebugMonitor_Handler
-                0x080001a0                DMA1_C6_IRQHandler
-                0x080001a0                DMA2_Channel3_IRQHandler
-                0x080001a6                Reset_Handler
- .text          0x08000230      0x228 build/gpio_stm32f103rb.o
-                0x08000230                hal_to_stm32_mode
-                0x08000266                hal_to_stm32_cnf
-                0x08000290                hal_to_stm32_port
-                0x080002e4                gpio_init
-                0x080003a0                gpio_toggle
-                0x080003d4                gpio_write
-                0x0800041c                gpio_read
- .text          0x08000458       0x54 build/rcc_stm32f103rb.o
-                0x08000458                rcc_peripheral_enable
- .text          0x080004ac        0x0 build/gpio_driver.o
+ .text          0x08000154        0x0 build/main.o
+ .text          0x08000154        0x0 build/gpio_stm32f103rb.o
+ .text          0x08000154        0x0 build/rcc_stm32f103rb.o
+ .text          0x08000154        0x0 build/stm32f103rb_startup.o
+ .text          0x08000154        0x0 build/assert_handler.o
+ .text          0x08000154        0x0 build/assert_stub.o
  *(.rodata)
- .rodata        0x080004ac        0x3 build/main.o
-                0x080004b0                . = ALIGN (0x4)
- *fill*         0x080004af        0x1 
-                0x080004b0                _etext = .
+                0x08000154                . = ALIGN (0x4)
+                0x08000154                _etext = .
 
-.glue_7         0x080004b0        0x0
- .glue_7        0x080004b0        0x0 linker stubs
+.glue_7         0x08000154        0x0
+ .glue_7        0x08000154        0x0 linker stubs
 
-.glue_7t        0x080004b0        0x0
- .glue_7t       0x080004b0        0x0 linker stubs
+.glue_7t        0x08000154        0x0
+ .glue_7t       0x08000154        0x0 linker stubs
 
-.vfp11_veneer   0x080004b0        0x0
- .vfp11_veneer  0x080004b0        0x0 linker stubs
+.vfp11_veneer   0x08000154        0x0
+ .vfp11_veneer  0x08000154        0x0 linker stubs
 
-.v4_bx          0x080004b0        0x0
- .v4_bx         0x080004b0        0x0 linker stubs
+.v4_bx          0x08000154        0x0
+ .v4_bx         0x08000154        0x0 linker stubs
 
-.iplt           0x080004b0        0x0
- .iplt          0x080004b0        0x0 build/main.o
+.text.main      0x08000154       0x50
+ .text.main     0x08000154       0x50 build/main.o
+                0x08000154                main
 
-.rel.dyn        0x080004b0        0x0
- .rel.iplt      0x080004b0        0x0 build/main.o
+.iplt           0x080001a4        0x0
+ .iplt          0x080001a4        0x0 build/main.o
 
-.data           0x20000000        0x0 load address 0x080004b0
+.text.hal_to_stm32_port
+                0x080001a4       0x50
+ .text.hal_to_stm32_port
+                0x080001a4       0x50 build/gpio_stm32f103rb.o
+                0x080001a4                hal_to_stm32_port
+
+.text.pin_to_port
+                0x080001f4       0x34
+ .text.pin_to_port
+                0x080001f4       0x34 build/gpio_stm32f103rb.o
+                0x080001f4                pin_to_port
+
+.text.gpio_init
+                0x08000228       0xe0
+ .text.gpio_init
+                0x08000228       0xe0 build/gpio_stm32f103rb.o
+                0x08000228                gpio_init
+
+.text.gpio_toggle
+                0x08000308        0xe
+ .text.gpio_toggle
+                0x08000308        0xe build/gpio_stm32f103rb.o
+                0x08000308                gpio_toggle
+
+.text.gpio_write
+                0x08000316       0x1a
+ .text.gpio_write
+                0x08000316       0x1a build/gpio_stm32f103rb.o
+                0x08000316                gpio_write
+
+.text.gpio_read
+                0x08000330       0x10
+ .text.gpio_read
+                0x08000330       0x10 build/gpio_stm32f103rb.o
+                0x08000330                gpio_read
+
+.text.rcc_peripheral_enable
+                0x08000340       0x54
+ .text.rcc_peripheral_enable
+                0x08000340       0x54 build/rcc_stm32f103rb.o
+                0x08000340                rcc_peripheral_enable
+
+.text.SysTick_Handler
+                0x08000394       0x1c
+ .text.SysTick_Handler
+                0x08000394       0x1c build/rcc_stm32f103rb.o
+                0x08000394                SysTick_Handler
+
+.text.systick_init
+                0x080003b0       0x2c
+ .text.systick_init
+                0x080003b0       0x2c build/rcc_stm32f103rb.o
+                0x080003b0                systick_init
+
+.text.delay_ms  0x080003dc       0x20
+ .text.delay_ms
+                0x080003dc       0x20 build/rcc_stm32f103rb.o
+                0x080003dc                delay_ms
+
+.text.Default_Handler
+                0x080003fc        0x2
+ .text.Default_Handler
+                0x080003fc        0x2 build/stm32f103rb_startup.o
+                0x080003fc                Default_Handler
+
+.text.NMI_handler
+                0x080003fe        0x2
+ .text.NMI_handler
+                0x080003fe        0x2 build/stm32f103rb_startup.o
+                0x080003fe                NMI_handler
+
+.text.HardFault_Handler
+                0x08000400        0x2
+ .text.HardFault_Handler
+                0x08000400        0x2 build/stm32f103rb_startup.o
+                0x08000400                HardFault_Handler
+
+.text.MemManager_Handler
+                0x08000402        0x2
+ .text.MemManager_Handler
+                0x08000402        0x2 build/stm32f103rb_startup.o
+                0x08000402                MemManager_Handler
+
+.text.BusFault_Handler
+                0x08000404        0x2
+ .text.BusFault_Handler
+                0x08000404        0x2 build/stm32f103rb_startup.o
+                0x08000404                BusFault_Handler
+
+.text.UsageFault_Handler
+                0x08000406        0x2
+ .text.UsageFault_Handler
+                0x08000406        0x2 build/stm32f103rb_startup.o
+                0x08000406                UsageFault_Handler
+
+.text.SVCall_Handler
+                0x08000408        0x2
+ .text.SVCall_Handler
+                0x08000408        0x2 build/stm32f103rb_startup.o
+                0x08000408                SVCall_Handler
+
+.text.DebugMonitor_Handler
+                0x0800040a        0x2
+ .text.DebugMonitor_Handler
+                0x0800040a        0x2 build/stm32f103rb_startup.o
+                0x0800040a                DebugMonitor_Handler
+
+.text.PendSV_Handler
+                0x0800040c        0x2
+ .text.PendSV_Handler
+                0x0800040c        0x2 build/stm32f103rb_startup.o
+                0x0800040c                PendSV_Handler
+
+.text.WWDG_IRQHandler
+                0x0800040e        0x2
+ .text.WWDG_IRQHandler
+                0x0800040e        0x2 build/stm32f103rb_startup.o
+                0x0800040e                WWDG_IRQHandler
+
+.text.PVD_IRQHandler
+                0x08000410        0x2
+ .text.PVD_IRQHandler
+                0x08000410        0x2 build/stm32f103rb_startup.o
+                0x08000410                PVD_IRQHandler
+
+.text.TAMPER_IRQHandler
+                0x08000412        0x2
+ .text.TAMPER_IRQHandler
+                0x08000412        0x2 build/stm32f103rb_startup.o
+                0x08000412                TAMPER_IRQHandler
+
+.text.RTC_IRQHandler
+                0x08000414        0x2
+ .text.RTC_IRQHandler
+                0x08000414        0x2 build/stm32f103rb_startup.o
+                0x08000414                RTC_IRQHandler
+
+.text.FLASH_IRQHandler
+                0x08000416        0x2
+ .text.FLASH_IRQHandler
+                0x08000416        0x2 build/stm32f103rb_startup.o
+                0x08000416                FLASH_IRQHandler
+
+.text.RCC_IRQHandler
+                0x08000418        0x2
+ .text.RCC_IRQHandler
+                0x08000418        0x2 build/stm32f103rb_startup.o
+                0x08000418                RCC_IRQHandler
+
+.text.EXTI0_IRQHandler
+                0x0800041a        0x2
+ .text.EXTI0_IRQHandler
+                0x0800041a        0x2 build/stm32f103rb_startup.o
+                0x0800041a                EXTI0_IRQHandler
+
+.text.EXTI1_IRQHandler
+                0x0800041c        0x2
+ .text.EXTI1_IRQHandler
+                0x0800041c        0x2 build/stm32f103rb_startup.o
+                0x0800041c                EXTI1_IRQHandler
+
+.text.EXTI2_IRQHandler
+                0x0800041e        0x2
+ .text.EXTI2_IRQHandler
+                0x0800041e        0x2 build/stm32f103rb_startup.o
+                0x0800041e                EXTI2_IRQHandler
+
+.text.EXTI3_IRQHandler
+                0x08000420        0x2
+ .text.EXTI3_IRQHandler
+                0x08000420        0x2 build/stm32f103rb_startup.o
+                0x08000420                EXTI3_IRQHandler
+
+.text.EXTI4_IRQHandler
+                0x08000422        0x2
+ .text.EXTI4_IRQHandler
+                0x08000422        0x2 build/stm32f103rb_startup.o
+                0x08000422                EXTI4_IRQHandler
+
+.text.EXTI9_5_IRQHandler
+                0x08000424        0x2
+ .text.EXTI9_5_IRQHandler
+                0x08000424        0x2 build/stm32f103rb_startup.o
+                0x08000424                EXTI9_5_IRQHandler
+
+.text.DMA1_Channel1_IRQHandler
+                0x08000426        0x2
+ .text.DMA1_Channel1_IRQHandler
+                0x08000426        0x2 build/stm32f103rb_startup.o
+                0x08000426                DMA1_Channel1_IRQHandler
+
+.text.DMA1_Channel2_IRQHandler
+                0x08000428        0x2
+ .text.DMA1_Channel2_IRQHandler
+                0x08000428        0x2 build/stm32f103rb_startup.o
+                0x08000428                DMA1_Channel2_IRQHandler
+
+.text.DMA1_Channel3_IRQHandler
+                0x0800042a        0x2
+ .text.DMA1_Channel3_IRQHandler
+                0x0800042a        0x2 build/stm32f103rb_startup.o
+                0x0800042a                DMA1_Channel3_IRQHandler
+
+.text.DMA1_Channel4_IRQHandler
+                0x0800042c        0x2
+ .text.DMA1_Channel4_IRQHandler
+                0x0800042c        0x2 build/stm32f103rb_startup.o
+                0x0800042c                DMA1_Channel4_IRQHandler
+
+.text.DMA1_Channel5_IRQHandler
+                0x0800042e        0x2
+ .text.DMA1_Channel5_IRQHandler
+                0x0800042e        0x2 build/stm32f103rb_startup.o
+                0x0800042e                DMA1_Channel5_IRQHandler
+
+.text.DMA1_Channel6_IRQHandler
+                0x08000430        0x2
+ .text.DMA1_Channel6_IRQHandler
+                0x08000430        0x2 build/stm32f103rb_startup.o
+                0x08000430                DMA1_Channel6_IRQHandler
+
+.text.DMA1_Channel7_IRQHandler
+                0x08000432        0x2
+ .text.DMA1_Channel7_IRQHandler
+                0x08000432        0x2 build/stm32f103rb_startup.o
+                0x08000432                DMA1_Channel7_IRQHandler
+
+.text.ADC1_2_IRQHandler
+                0x08000434        0x2
+ .text.ADC1_2_IRQHandler
+                0x08000434        0x2 build/stm32f103rb_startup.o
+                0x08000434                ADC1_2_IRQHandler
+
+.text.CAN1_TX_IRQHandler
+                0x08000436        0x2
+ .text.CAN1_TX_IRQHandler
+                0x08000436        0x2 build/stm32f103rb_startup.o
+                0x08000436                CAN1_TX_IRQHandler
+
+.text.CAN1_RX0_IRQHandler
+                0x08000438        0x2
+ .text.CAN1_RX0_IRQHandler
+                0x08000438        0x2 build/stm32f103rb_startup.o
+                0x08000438                CAN1_RX0_IRQHandler
+
+.text.CAN1_RX1_IRQHandler
+                0x0800043a        0x2
+ .text.CAN1_RX1_IRQHandler
+                0x0800043a        0x2 build/stm32f103rb_startup.o
+                0x0800043a                CAN1_RX1_IRQHandler
+
+.text.CAN1_SCE_IRQHandler
+                0x0800043c        0x2
+ .text.CAN1_SCE_IRQHandler
+                0x0800043c        0x2 build/stm32f103rb_startup.o
+                0x0800043c                CAN1_SCE_IRQHandler
+
+.text.TIM1_BRK_IRQHandler
+                0x0800043e        0x2
+ .text.TIM1_BRK_IRQHandler
+                0x0800043e        0x2 build/stm32f103rb_startup.o
+                0x0800043e                TIM1_BRK_IRQHandler
+
+.text.TIM1_UP_IRQHandler
+                0x08000440        0x2
+ .text.TIM1_UP_IRQHandler
+                0x08000440        0x2 build/stm32f103rb_startup.o
+                0x08000440                TIM1_UP_IRQHandler
+
+.text.TIM1_TRG_COM_IRQHandler
+                0x08000442        0x2
+ .text.TIM1_TRG_COM_IRQHandler
+                0x08000442        0x2 build/stm32f103rb_startup.o
+                0x08000442                TIM1_TRG_COM_IRQHandler
+
+.text.TIM1_CC_IRQHandler
+                0x08000444        0x2
+ .text.TIM1_CC_IRQHandler
+                0x08000444        0x2 build/stm32f103rb_startup.o
+                0x08000444                TIM1_CC_IRQHandler
+
+.text.TIM2_IRQHandler
+                0x08000446        0x2
+ .text.TIM2_IRQHandler
+                0x08000446        0x2 build/stm32f103rb_startup.o
+                0x08000446                TIM2_IRQHandler
+
+.text.TIM3_IRQHandler
+                0x08000448        0x2
+ .text.TIM3_IRQHandler
+                0x08000448        0x2 build/stm32f103rb_startup.o
+                0x08000448                TIM3_IRQHandler
+
+.text.TIM4_IRQHandler
+                0x0800044a        0x2
+ .text.TIM4_IRQHandler
+                0x0800044a        0x2 build/stm32f103rb_startup.o
+                0x0800044a                TIM4_IRQHandler
+
+.text.I2C1_EV_IRQHandler
+                0x0800044c        0x2
+ .text.I2C1_EV_IRQHandler
+                0x0800044c        0x2 build/stm32f103rb_startup.o
+                0x0800044c                I2C1_EV_IRQHandler
+
+.text.I2C1_ER_IRQHandler
+                0x0800044e        0x2
+ .text.I2C1_ER_IRQHandler
+                0x0800044e        0x2 build/stm32f103rb_startup.o
+                0x0800044e                I2C1_ER_IRQHandler
+
+.text.I2C2_EV_IRQHandler
+                0x08000450        0x2
+ .text.I2C2_EV_IRQHandler
+                0x08000450        0x2 build/stm32f103rb_startup.o
+                0x08000450                I2C2_EV_IRQHandler
+
+.text.I2C2_ER_IRQHandler
+                0x08000452        0x2
+ .text.I2C2_ER_IRQHandler
+                0x08000452        0x2 build/stm32f103rb_startup.o
+                0x08000452                I2C2_ER_IRQHandler
+
+.text.SPI1_IRQHandler
+                0x08000454        0x2
+ .text.SPI1_IRQHandler
+                0x08000454        0x2 build/stm32f103rb_startup.o
+                0x08000454                SPI1_IRQHandler
+
+.text.SPI2_IRQHandler
+                0x08000456        0x2
+ .text.SPI2_IRQHandler
+                0x08000456        0x2 build/stm32f103rb_startup.o
+                0x08000456                SPI2_IRQHandler
+
+.text.USART1_IRQHandler
+                0x08000458        0x2
+ .text.USART1_IRQHandler
+                0x08000458        0x2 build/stm32f103rb_startup.o
+                0x08000458                USART1_IRQHandler
+
+.text.USART2_IRQHandler
+                0x0800045a        0x2
+ .text.USART2_IRQHandler
+                0x0800045a        0x2 build/stm32f103rb_startup.o
+                0x0800045a                USART2_IRQHandler
+
+.text.USART3_IRQHandler
+                0x0800045c        0x2
+ .text.USART3_IRQHandler
+                0x0800045c        0x2 build/stm32f103rb_startup.o
+                0x0800045c                USART3_IRQHandler
+
+.text.EXTI15_10_IRQHandler
+                0x0800045e        0x2
+ .text.EXTI15_10_IRQHandler
+                0x0800045e        0x2 build/stm32f103rb_startup.o
+                0x0800045e                EXTI15_10_IRQHandler
+
+.text.RTCAlarm_IRQHandler
+                0x08000460        0x2
+ .text.RTCAlarm_IRQHandler
+                0x08000460        0x2 build/stm32f103rb_startup.o
+                0x08000460                RTCAlarm_IRQHandler
+
+.text.OTG_FS_WKUP_IRQHandler
+                0x08000462        0x2
+ .text.OTG_FS_WKUP_IRQHandler
+                0x08000462        0x2 build/stm32f103rb_startup.o
+                0x08000462                OTG_FS_WKUP_IRQHandler
+
+.text.TIM5_IRQHandler
+                0x08000464        0x2
+ .text.TIM5_IRQHandler
+                0x08000464        0x2 build/stm32f103rb_startup.o
+                0x08000464                TIM5_IRQHandler
+
+.text.UART4_IRQHandler
+                0x08000466        0x2
+ .text.UART4_IRQHandler
+                0x08000466        0x2 build/stm32f103rb_startup.o
+                0x08000466                UART4_IRQHandler
+
+.text.UART5_IRQHandler
+                0x08000468        0x2
+ .text.UART5_IRQHandler
+                0x08000468        0x2 build/stm32f103rb_startup.o
+                0x08000468                UART5_IRQHandler
+
+.text.TIM6_IRQHandler
+                0x0800046a        0x2
+ .text.TIM6_IRQHandler
+                0x0800046a        0x2 build/stm32f103rb_startup.o
+                0x0800046a                TIM6_IRQHandler
+
+.text.TIM7_IRQHandler
+                0x0800046c        0x2
+ .text.TIM7_IRQHandler
+                0x0800046c        0x2 build/stm32f103rb_startup.o
+                0x0800046c                TIM7_IRQHandler
+
+.text.DMA2_Channel1_IRQHandler
+                0x0800046e        0x2
+ .text.DMA2_Channel1_IRQHandler
+                0x0800046e        0x2 build/stm32f103rb_startup.o
+                0x0800046e                DMA2_Channel1_IRQHandler
+
+.text.DMA2_Channel2_IRQHandler
+                0x08000470        0x2
+ .text.DMA2_Channel2_IRQHandler
+                0x08000470        0x2 build/stm32f103rb_startup.o
+                0x08000470                DMA2_Channel2_IRQHandler
+
+.text.DMA2_Channel3_IRQHandler
+                0x08000472        0x2
+ .text.DMA2_Channel3_IRQHandler
+                0x08000472        0x2 build/stm32f103rb_startup.o
+                0x08000472                DMA2_Channel3_IRQHandler
+
+.text.DMA2_Channel4_IRQHandler
+                0x08000474        0x2
+ .text.DMA2_Channel4_IRQHandler
+                0x08000474        0x2 build/stm32f103rb_startup.o
+                0x08000474                DMA2_Channel4_IRQHandler
+
+.text.DMA2_Channel5_IRQHandler
+                0x08000476        0x2
+ .text.DMA2_Channel5_IRQHandler
+                0x08000476        0x2 build/stm32f103rb_startup.o
+                0x08000476                DMA2_Channel5_IRQHandler
+
+.text.ETH_IRQHandler
+                0x08000478        0x2
+ .text.ETH_IRQHandler
+                0x08000478        0x2 build/stm32f103rb_startup.o
+                0x08000478                ETH_IRQHandler
+
+.text.ETH_WKUP_IRQHandler
+                0x0800047a        0x2
+ .text.ETH_WKUP_IRQHandler
+                0x0800047a        0x2 build/stm32f103rb_startup.o
+                0x0800047a                ETH_WKUP_IRQHandler
+
+.text.CAN2_TX_IRQHandler
+                0x0800047c        0x2
+ .text.CAN2_TX_IRQHandler
+                0x0800047c        0x2 build/stm32f103rb_startup.o
+                0x0800047c                CAN2_TX_IRQHandler
+
+.text.CAN2_RX0_IRQHandler
+                0x0800047e        0x2
+ .text.CAN2_RX0_IRQHandler
+                0x0800047e        0x2 build/stm32f103rb_startup.o
+                0x0800047e                CAN2_RX0_IRQHandler
+
+.text.CAN2_RX1_IRQHandler
+                0x08000480        0x2
+ .text.CAN2_RX1_IRQHandler
+                0x08000480        0x2 build/stm32f103rb_startup.o
+                0x08000480                CAN2_RX1_IRQHandler
+
+.text.CAN2_SCE_IRQHandler
+                0x08000482        0x2
+ .text.CAN2_SCE_IRQHandler
+                0x08000482        0x2 build/stm32f103rb_startup.o
+                0x08000482                CAN2_SCE_IRQHandler
+
+.text.OTG_FS_IRQHandler
+                0x08000484        0x2
+ .text.OTG_FS_IRQHandler
+                0x08000484        0x2 build/stm32f103rb_startup.o
+                0x08000484                OTG_FS_IRQHandler
+
+.text.DMA1_C1_IRQHandler
+                0x08000486        0x2
+ .text.DMA1_C1_IRQHandler
+                0x08000486        0x2 build/stm32f103rb_startup.o
+                0x08000486                DMA1_C1_IRQHandler
+
+.text.DMA1_C2_IRQHandler
+                0x08000488        0x2
+ .text.DMA1_C2_IRQHandler
+                0x08000488        0x2 build/stm32f103rb_startup.o
+                0x08000488                DMA1_C2_IRQHandler
+
+.text.DMA1_C3_IRQHandler
+                0x0800048a        0x2
+ .text.DMA1_C3_IRQHandler
+                0x0800048a        0x2 build/stm32f103rb_startup.o
+                0x0800048a                DMA1_C3_IRQHandler
+
+.text.DMA1_C4_IRQHandler
+                0x0800048c        0x2
+ .text.DMA1_C4_IRQHandler
+                0x0800048c        0x2 build/stm32f103rb_startup.o
+                0x0800048c                DMA1_C4_IRQHandler
+
+.text.DMA1_C5_IRQHandler
+                0x0800048e        0x2
+ .text.DMA1_C5_IRQHandler
+                0x0800048e        0x2 build/stm32f103rb_startup.o
+                0x0800048e                DMA1_C5_IRQHandler
+
+.text.DMA1_C6_IRQHandler
+                0x08000490        0x2
+ .text.DMA1_C6_IRQHandler
+                0x08000490        0x2 build/stm32f103rb_startup.o
+                0x08000490                DMA1_C6_IRQHandler
+
+.text.DMA1_C7_IRQHandler
+                0x08000492        0x2
+ .text.DMA1_C7_IRQHandler
+                0x08000492        0x2 build/stm32f103rb_startup.o
+                0x08000492                DMA1_C7_IRQHandler
+
+.text.Reset_Handler
+                0x08000494       0x88
+ .text.Reset_Handler
+                0x08000494       0x88 build/stm32f103rb_startup.o
+                0x08000494                Reset_Handler
+
+.text.assert_handler
+                0x0800051c        0x2
+ .text.assert_handler
+                0x0800051c        0x2 build/assert_handler.o
+                0x0800051c                assert_handler
+
+.text.__assert_func
+                0x0800051e        0xe
+ .text.__assert_func
+                0x0800051e        0xe build/assert_stub.o
+                0x0800051e                __assert_func
+
+.rel.dyn        0x0800052c        0x0
+ .rel.iplt      0x0800052c        0x0 build/main.o
+
+.data           0x20000000        0x0 load address 0x0800052c
                 0x20000000                _sdata = .
  *(.data)
  .data          0x20000000        0x0 build/main.o
- .data          0x20000000        0x0 build/stm32f103rb_startup.o
  .data          0x20000000        0x0 build/gpio_stm32f103rb.o
  .data          0x20000000        0x0 build/rcc_stm32f103rb.o
- .data          0x20000000        0x0 build/gpio_driver.o
+ .data          0x20000000        0x0 build/stm32f103rb_startup.o
+ .data          0x20000000        0x0 build/assert_handler.o
+ .data          0x20000000        0x0 build/assert_stub.o
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _edata = .
 
-.igot.plt       0x20000000        0x0 load address 0x080004b0
+.igot.plt       0x20000000        0x0 load address 0x0800052c
  .igot.plt      0x20000000        0x0 build/main.o
 
-.bss            0x20000000        0x4 load address 0x080004b0
+.bss            0x20000000        0x0 load address 0x0800052c
                 0x20000000                _sbss = .
                 0x20000000                __bss_start__ = _sbss
  *(.bss)
  .bss           0x20000000        0x0 build/main.o
- .bss           0x20000000        0x0 build/stm32f103rb_startup.o
  .bss           0x20000000        0x0 build/gpio_stm32f103rb.o
  .bss           0x20000000        0x0 build/rcc_stm32f103rb.o
- .bss           0x20000000        0x4 build/gpio_driver.o
-                0x20000000                i
+ .bss           0x20000000        0x0 build/stm32f103rb_startup.o
+ .bss           0x20000000        0x0 build/assert_handler.o
+ .bss           0x20000000        0x0 build/assert_stub.o
  *(COMMON)
-                0x20000004                . = ALIGN (0x4)
-                0x20000004                _ebss = .
-                0x20000004                __bss_end__ = _ebss
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _ebss = .
+                0x20000000                __bss_end__ = _ebss
 OUTPUT(build/final.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000      0xab0
- .debug_info    0x00000000      0x1ff build/main.o
- .debug_info    0x000001ff      0x188 build/stm32f103rb_startup.o
- .debug_info    0x00000387      0x4a4 build/gpio_stm32f103rb.o
- .debug_info    0x0000082b      0x211 build/rcc_stm32f103rb.o
- .debug_info    0x00000a3c       0x74 build/gpio_driver.o
+.bss.test_buffer
+                0x20000000      0x400 load address 0x0800052c
+ .bss.test_buffer
+                0x20000000      0x400 build/main.o
+                0x20000000                test_buffer
 
-.debug_abbrev   0x00000000      0x433
- .debug_abbrev  0x00000000       0xe3 build/main.o
- .debug_abbrev  0x000000e3       0xe6 build/stm32f103rb_startup.o
- .debug_abbrev  0x000001c9      0x15d build/gpio_stm32f103rb.o
- .debug_abbrev  0x00000326       0xd4 build/rcc_stm32f103rb.o
- .debug_abbrev  0x000003fa       0x39 build/gpio_driver.o
+.bss.systick_counter
+                0x20000400        0x4 load address 0x0800052c
+ .bss.systick_counter
+                0x20000400        0x4 build/rcc_stm32f103rb.o
+                0x20000400                systick_counter
 
-.debug_aranges  0x00000000       0x98
+.debug_info     0x00000000     0x11c0
+ .debug_info    0x00000000      0x2a2 build/main.o
+ .debug_info    0x000002a2      0x478 build/gpio_stm32f103rb.o
+ .debug_info    0x0000071a      0x2aa build/rcc_stm32f103rb.o
+ .debug_info    0x000009c4      0x6f3 build/stm32f103rb_startup.o
+ .debug_info    0x000010b7       0x38 build/assert_handler.o
+ .debug_info    0x000010ef       0xd1 build/assert_stub.o
+
+.debug_abbrev   0x00000000      0x528
+ .debug_abbrev  0x00000000      0x10a build/main.o
+ .debug_abbrev  0x0000010a      0x15b build/gpio_stm32f103rb.o
+ .debug_abbrev  0x00000265      0x12e build/rcc_stm32f103rb.o
+ .debug_abbrev  0x00000393      0x100 build/stm32f103rb_startup.o
+ .debug_abbrev  0x00000493       0x2e build/assert_handler.o
+ .debug_abbrev  0x000004c1       0x67 build/assert_stub.o
+
+.debug_aranges  0x00000000      0x360
  .debug_aranges
                 0x00000000       0x20 build/main.o
  .debug_aranges
-                0x00000020       0x20 build/stm32f103rb_startup.o
+                0x00000020       0x48 build/gpio_stm32f103rb.o
  .debug_aranges
-                0x00000040       0x20 build/gpio_stm32f103rb.o
+                0x00000068       0x38 build/rcc_stm32f103rb.o
  .debug_aranges
-                0x00000060       0x20 build/rcc_stm32f103rb.o
+                0x000000a0      0x280 build/stm32f103rb_startup.o
  .debug_aranges
-                0x00000080       0x18 build/gpio_driver.o
+                0x00000320       0x20 build/assert_handler.o
+ .debug_aranges
+                0x00000340       0x20 build/assert_stub.o
 
-.debug_line     0x00000000      0x6c0
- .debug_line    0x00000000       0x8e build/main.o
- .debug_line    0x0000008e      0x1a2 build/stm32f103rb_startup.o
- .debug_line    0x00000230      0x289 build/gpio_stm32f103rb.o
- .debug_line    0x000004b9      0x1d0 build/rcc_stm32f103rb.o
- .debug_line    0x00000689       0x37 build/gpio_driver.o
+.debug_ranges   0x00000000      0x300
+ .debug_ranges  0x00000000       0x10 build/main.o
+ .debug_ranges  0x00000010       0x38 build/gpio_stm32f103rb.o
+ .debug_ranges  0x00000048       0x28 build/rcc_stm32f103rb.o
+ .debug_ranges  0x00000070      0x270 build/stm32f103rb_startup.o
+ .debug_ranges  0x000002e0       0x10 build/assert_handler.o
+ .debug_ranges  0x000002f0       0x10 build/assert_stub.o
 
-.debug_str      0x00000000      0x4b2
- .debug_str     0x00000000      0x216 build/main.o
-                                0x285 (size before relaxing)
- .debug_str     0x00000216       0x99 build/stm32f103rb_startup.o
-                                0x1f5 (size before relaxing)
- .debug_str     0x000002af      0x16d build/gpio_stm32f103rb.o
-                                0x411 (size before relaxing)
- .debug_str     0x0000041c       0x7f build/rcc_stm32f103rb.o
-                                0x233 (size before relaxing)
- .debug_str     0x0000049b       0x17 build/gpio_driver.o
-                                0x162 (size before relaxing)
+.debug_line     0x00000000      0xe82
+ .debug_line    0x00000000      0x10c build/main.o
+ .debug_line    0x0000010c      0x255 build/gpio_stm32f103rb.o
+ .debug_line    0x00000361      0x1dd build/rcc_stm32f103rb.o
+ .debug_line    0x0000053e      0x8a3 build/stm32f103rb_startup.o
+ .debug_line    0x00000de1       0x52 build/assert_handler.o
+ .debug_line    0x00000e33       0x4f build/assert_stub.o
+
+.debug_str      0x00000000      0xbf0
+ .debug_str     0x00000000      0x38d build/main.o
+                                0x3c1 (size before relaxing)
+ .debug_str     0x0000038d      0x10e build/gpio_stm32f103rb.o
+                                0x4b4 (size before relaxing)
+ .debug_str     0x0000049b       0xcf build/rcc_stm32f103rb.o
+                                0x2fe (size before relaxing)
+ .debug_str     0x0000056a      0x61f build/stm32f103rb_startup.o
+                                0x801 (size before relaxing)
+ .debug_str     0x00000b89       0x2b build/assert_handler.o
+                                0x178 (size before relaxing)
+ .debug_str     0x00000bb4       0x3c build/assert_stub.o
+                                0x217 (size before relaxing)
 
 .comment        0x00000000       0x49
  .comment       0x00000000       0x49 build/main.o
                                  0x4a (size before relaxing)
- .comment       0x00000049       0x4a build/stm32f103rb_startup.o
  .comment       0x00000049       0x4a build/gpio_stm32f103rb.o
  .comment       0x00000049       0x4a build/rcc_stm32f103rb.o
- .comment       0x00000049       0x4a build/gpio_driver.o
+ .comment       0x00000049       0x4a build/stm32f103rb_startup.o
+ .comment       0x00000049       0x4a build/assert_handler.o
+ .comment       0x00000049       0x4a build/assert_stub.o
 
 .ARM.attributes
                 0x00000000       0x2d
  .ARM.attributes
                 0x00000000       0x2d build/main.o
  .ARM.attributes
-                0x0000002d       0x2d build/stm32f103rb_startup.o
+                0x0000002d       0x2d build/gpio_stm32f103rb.o
  .ARM.attributes
-                0x0000005a       0x2d build/gpio_stm32f103rb.o
+                0x0000005a       0x2d build/rcc_stm32f103rb.o
  .ARM.attributes
-                0x00000087       0x2d build/rcc_stm32f103rb.o
+                0x00000087       0x2d build/stm32f103rb_startup.o
  .ARM.attributes
-                0x000000b4       0x2d build/gpio_driver.o
+                0x000000b4       0x2d build/assert_handler.o
+ .ARM.attributes
+                0x000000e1       0x2d build/assert_stub.o
 
-.debug_frame    0x00000000      0x1c8
- .debug_frame   0x00000000       0x30 build/main.o
- .debug_frame   0x00000030       0x4c build/stm32f103rb_startup.o
- .debug_frame   0x0000007c      0x118 build/gpio_stm32f103rb.o
- .debug_frame   0x00000194       0x34 build/rcc_stm32f103rb.o
+.debug_frame    0x00000000      0x660
+ .debug_frame   0x00000000       0x28 build/main.o
+ .debug_frame   0x00000028       0xa4 build/gpio_stm32f103rb.o
+ .debug_frame   0x000000cc       0x64 build/rcc_stm32f103rb.o
+ .debug_frame   0x00000130      0x4ec build/stm32f103rb_startup.o
+ .debug_frame   0x0000061c       0x20 build/assert_handler.o
+ .debug_frame   0x0000063c       0x24 build/assert_stub.o

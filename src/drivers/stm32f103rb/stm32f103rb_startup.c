@@ -1,5 +1,6 @@
 #include<stdint.h>
 
+// TODO: Shouldn't RAM be 20K
 #define RAM_START   0x20000000U
 #define RAM_SIZE    (128 + 1024) // 128K RAM
 #define RAM_END     ((RAM_START) + (RAM_SIZE))
