@@ -34,7 +34,7 @@ void gpio_init(gpio_params_t *params);
 //void gpio_write(GPIO_PORT port, uint16_t pin, uint8_t value);
 //uint8_t gpio_read(GPIO_PORT port, uint16_t pin);
 //void gpio_toggle(GPIO_PORT port, uint16_t pin);
-void gpio_toggle(uint16_t pin);
+void gpio_toggle(uint8_t pin);
 
     #ifdef stm32f103rb
         #include "..\drivers\stm32f103rb\gpio_stm32f103rb.h"

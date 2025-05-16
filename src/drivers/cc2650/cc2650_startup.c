@@ -169,19 +169,24 @@ void Reset_Handler(void){
     uint8_t* pDst = (uint8_t*)&_sdata; // ram
     uint8_t* pSrc = (uint8_t*)&_etext; // flash
 
+    int idx = 0;
 
-    for(uint32_t i = 0 ; i<size ;i++){
+    for(idx=0; idx < size; idx++){
         *pDst++ = *pSrc++;
     }
     // init the .bss section to 0 in RAM
     size = &_ebss - &_sbss;
     pDst = (uint8_t*) &_sbss;
-    for(uint32_t i = 0 ; i<size ;i++){
+    for(idx = 0 ; idx<size; idx++){
         *pDst++ = 0;
     }
 
-    // call main
+
+    // Call the C runtime entry point
     main();
+    
+    // No need to call main() directly
+    while (1);  // Should never reach here
 }
 
 

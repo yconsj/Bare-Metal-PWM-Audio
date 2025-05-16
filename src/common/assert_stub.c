@@ -7,6 +7,7 @@ void __assert_func(const char *file, int line, const char *func, const char *fai
 
     // Otherwise just enter an infinite loop (safe for now)
     while (1) {
-        __asm__("bkpt #0"); // Trigger a breakpoint for a debugger if connected
+        //__asm__("bkpt #0"); // Trigger a breakpoint for a debugger if connected
+        __asm(" .word 0xBE00");
     }
 }
