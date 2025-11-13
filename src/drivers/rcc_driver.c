@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "rcc_driver.h"
+
 void rcc_peripheral_enable(gpio_t *gpio){
     if (gpio == GPIOA) {
         RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
@@ -21,7 +22,7 @@ void SysTick_Handler(void) {
 
 void systick_init(void) {
     SYSTICK->CTRL = 0;
-    SYSTICK->LOAD = (CLOCK_FREQ_MHZ * 1000) - 1;
+    SYSTICK->LOAD = (SYSTICK_CLOCK_FREQ_MHZ * 1000) - 1;
     SYSTICK->VAL = 0;
     SYSTICK->CTRL |= SYSTICK_CTRL_ENABLE | SYSTICK_CTRL_INTERRUPT_ENABLE | SYSTICK_CTRL_CLKSOURCE;
 }

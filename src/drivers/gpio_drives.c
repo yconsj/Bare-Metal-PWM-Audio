@@ -3,7 +3,7 @@
 #include "rcc_driver.h"
 void gpio_init(gpio_t *gpio, gpio_params_t *gpio_params)  {
     rcc_peripheral_enable(gpio);
-    
+
     uint8_t cnf;
     uint8_t mode;
     if (gpio_params->mode == GPIO_OUTPUT){

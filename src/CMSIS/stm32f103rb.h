@@ -28,10 +28,9 @@ typedef struct {
 #define RCC_APB2ENR_IOPBEN  (RCC_APB2ENR_IOPAEN << 1)
 #define RCC_APB2ENR_IOPCEN  (RCC_APB2ENR_IOPBEN << 1)
 #define RCC_APB2ENR_IOPDEN  (RCC_APB2ENR_IOPCEN << 1)
+#define RCC_APB1ENR_USART2EN (1U << 17)
 
-
-
-
+/* GPIO */
 #define GPIO_BASE           (APB2_PERIPH_BASE + 0x800)
 #define GPIOA_BASE          (GPIO_BASE)
 #define GPIOB_BASE          (GPIOA_BASE + 0x400)
@@ -56,8 +55,10 @@ typedef struct {
 } gpio_t;
 
 typedef enum {
-    GPIO_MODE_OUTPUT_PP,
-    GPIO_MODE_OUTPUT_OD
+    GPIO_GP_OUTPUT_PP,
+    GPIO_GP_OUTPUT_OD,
+    GPIO_AF_OUTPUT_PP,
+    GPIO_AF_OUTPUT_OD
 } GPIO_OUTPUT_CONFIG;
 
 typedef enum {
@@ -79,12 +80,27 @@ typedef enum {
 
 
 
-/* GPIO Macros */
+
 #define GPIO_CR_REGISTER(gpio, pin)     ((pin) > 7 ? &(gpio->CRH) : &(gpio->CRL))
 #define GPIO_CNF_MASK(pin)              (0b11 << (((pin % 8) * 4) + 2))
 #define GPIO_MODE_MASK(pin)             (0b11 << ((pin % 8) * 4))
 #define GPIO_CNF_PINS(pin)              (((pin % 8) * 4) + 2)
 #define GPIO_MODE_PINS(pin)             ((pin % 8) * 4)
+
+/* AFIO */
+#define AFIO_BASE           (APB2_PERIPH_BASE) // AFIO starts at APB2
+#define AFIO               ((afio_t*) AFIO_BASE)
+
+typedef struct {
+    volatile uint32_t EVCR;
+    volatile uint32_t MAPR;
+    volatile uint32_t EXTICR1;
+    volatile uint32_t EXTICR2;
+    volatile uint32_t EXTICR3;
+    volatile uint32_t EXTICR4;
+    volatile uint32_t MAPR2;
+} afio_t;
+
 
 typedef enum {
     PIN_0,
@@ -106,6 +122,60 @@ typedef enum {
     PIN_COUNT,
 } PIN;
 
+/* UART and USART*/
+#define USART2_BASE (APB1_PERIPH_BASE + 0x00004400)
+
+typedef struct
+{
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t BRR;
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t CR3;
+    volatile uint32_t GTPR;
+
+} USART_t;
+
+#define USART2  ((USART_t*) USART2_BASE)
+
+/* USART Macros */
+
+// SR
+#define USART_SR_PE     (1U << 0)
+#define USART_SR_FE     (1U << 1)
+#define USART_SR_NE     (1U << 2)
+#define USART_SR_CRE    (1U << 3)
+#define USART_SR_IDLE   (1U << 4)
+#define USART_SR_RXNE   (1U << 5)
+#define USART_SR_TC     (1U << 6)
+#define USART_SR_TXE    (1U << 7)
+#define USART_SR_LBD    (1U << 8)
+#define USART_SR_CTR    (1U << 9)
+
+// CR1
+#define USART_CR1_SBK       (1U << 0)
+#define USART_CR1_RWU       (1U << 1)
+#define USART_CR1_RE        (1U << 2)
+#define USART_CR1_TE        (1U << 3)
+#define USART_CR1_IDLEIE    (1U << 4)
+#define USART_CR1_RXNEIE    (1U << 5)
+#define USART_CR1_TCIE      (1U << 6)
+#define USART_CR1_TXEIE     (1U << 7)
+#define USART_CR1_PEIE      (1U << 8)
+#define USART_CR1_PS        (1U << 9)
+#define USART_CR1_PCE       (1U << 10)
+#define USART_CR1_WAKE      (1U << 11)
+#define USART_CR1_M         (1U << 12)
+#define USART_CR1_UE        (1U << 13)
+
+
+
+
+
+
+
+/* Systick */
 #define CLOCK_FREQ_MHZ 72 // TODO: validate clock freq
 
 #define SYSTICK_BASE    (0xE000E010)
@@ -119,6 +189,7 @@ typedef enum {
 #define SYSTICK_CTRL_INTERRUPT_ENABLE   (1 << 1)
 #define SYSTICK_CTRL_CLKSOURCE          (1 << 2)
 #define SYSTICK_CTRL_COUNTFLAG          (1 << 16)
+#define SYSTICK_CLOCK_FREQ_MHZ 9
 
 typedef struct
 {
@@ -128,4 +199,4 @@ typedef struct
     volatile uint32_t CALIB;
 } SysTick_t;
 
-#endif 
+#endif
